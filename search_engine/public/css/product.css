@@ -1,0 +1,27 @@
+.product-form {
+    width: 20rem;
+    max-width: 90%;
+    margin: auto;
+    display: block;
+}
+
+.search-item {
+    width: 20rem;
+    max-width: 95%;
+    margin: 1rem;
+}
+
+.search_text {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.search_id {
+    text-align: center;
+    color: #4d4d4d;
+    margin-bottom: 0.5rem;
+}
+
+.search_text {
+    text-align: center;
+}

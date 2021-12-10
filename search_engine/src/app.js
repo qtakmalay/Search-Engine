@@ -24,6 +24,10 @@ mongoose.connect(url,connectionParams)
         console.error(`Error connecting to the database. \n${err}`);
     });
 app.use(searchRoutes);
+//app.use(express.static(path.join(__dirname, "public")));
+app.set("view engine", "ejs");
+app.set("views", "views");
+
 app.get('/', (req, res) => {
   res.set('Content-Type', 'text/html');
   res.status(200).send(html);

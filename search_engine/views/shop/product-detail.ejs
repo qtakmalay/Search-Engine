@@ -1,0 +1,40 @@
+    <head>
+        <h1>
+            Search History
+          </h1>
+    </head>
+    <body>
+        <main class="centered">
+            <main>
+                <div class="grid">
+                    <% for (let sear of search) { %>
+                        <article class="search-item">
+                            <header class="card__header">
+                                <h1 class="search_text">
+                                    <%= sear.searchText %>
+                                </h1>
+                            </header>
+
+                            <div class="card__content">
+                                <h2 class="search_id">$
+                                    <%= sear._id %>
+                                </h2>
+                                <p class="search_text">
+                                    <%= search.searchText %>
+                                </p>
+                            </div>
+
+                        </article>
+                        <% } %>
+                </div>
+<form class="product-form" action="/<%add-product %>" method="POST" enctype="multipart/form-data">
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input  class="<%= validationErrors.find(e => e.param == 'title') ? 'invalid' : '' %>" type="text" name="title" id="title" value="<%= oldInput.title %>">
+            </div>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+            <button class="btn" type="submit"><% Add Product%></button>
+        </form>
+            </main>
+        </main>
+

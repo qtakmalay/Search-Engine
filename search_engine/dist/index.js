@@ -117,7 +117,79 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"app.js":[function(require,module,exports) {
+})({"../middleware/is-auth.js":[function(require,module,exports) {
+module.exports = (req, res, next) => {
+  next();
+};
+},{}],"../models/search_model.js":[function(require,module,exports) {
+const mongoose = require('mongoose');
+
+var Schema = mongoose.Schema;
+var searchSchema = new Schema({
+  searchText: {
+    type: String,
+    required: true
+  } //,
+  // price: {
+  //   type: Number,
+  //   required: true
+  // },
+  // description: {
+  //   type: String,
+  //   required: true
+  // },
+  // image: {
+  //   public_id: {
+  //     type: String
+  //   },
+  //   url: {
+  //     type: String,
+  //     required: true
+  //   }
+  // },
+  // userId: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: 'User'
+  // }
+
+});
+module.exports = mongoose.model('Search', searchSchema);
+},{}],"../controller/controller_search.js":[function(require,module,exports) {
+// const fs = require('fs');
+// const path = require('path');
+// const PDFDocument = require('pdfkit');
+const Search = require('../models/search_model');
+
+exports.getSearches = (req, res, next) => {
+  Search.find().then(search => {
+    res.render('shop/product-detail', {
+      search: search,
+      pageTitle: search,
+      path: '/'
+    });
+    console.log(search);
+  }).catch(err => console.log(err));
+}; // exports.addToSearches = (req, res, next) => {
+//   const Search = new Search({
+//     searchText: req.search.searchText
+//   });
+//   return order.save();
+// };
+},{"../models/search_model":"../models/search_model.js"}],"../routes/router_search.js":[function(require,module,exports) {
+const path = require('path');
+
+const express = require('express');
+
+const isAuth = require('../middleware/is-auth');
+
+const router = express.Router();
+
+const searchController = require("../controller/controller_search");
+
+module.exports = router;
+router.get('/', isAuth, searchController.getSearches); //router.get('/', isAuth, searchController.addToSearch);
+},{"../middleware/is-auth":"../middleware/is-auth.js","../controller/controller_search":"../controller/controller_search.js"}],"app.js":[function(require,module,exports) {
 const express = require('express');
 
 const html = `<!DOCTYPE html>
@@ -131,12 +203,32 @@ const html = `<!DOCTYPE html>
 </body>
 </html>`;
 const app = express();
+
+const mongoose = require('mongoose');
+
+const url = `mongodb+srv://azatsoft:PUn38zyJUyuge5xG@cluster0.azu6g.gcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const connectionParams = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+};
+
+const searchRoutes = require("../routes/router_search");
+
+mongoose.connect(url, connectionParams).then(() => {
+  console.log('Connected to database ');
+}).catch(err => {
+  console.error(`Error connecting to the database. \n${err}`);
+});
+app.use(searchRoutes); //app.use(express.static(path.join(__dirname, "public")));
+
+app.set("view engine", "ejs");
+app.set("views", "views");
 app.get('/', (req, res) => {
   res.set('Content-Type', 'text/html');
   res.status(200).send(html);
 });
 module.exports = app;
-},{}],"index.js":[function(require,module,exports) {
+},{"../routes/router_search":"../routes/router_search.js"}],"index.js":[function(require,module,exports) {
 const app = require('./app');
 
 const port = '8888';
