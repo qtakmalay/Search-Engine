@@ -1,0 +1,43 @@
+<head>
+    <%- include('../includes/head'); %>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Search Engine Proj.</a>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+        </ul>
+      </nav>
+</head>
+<body>
+    <main class="centered">
+        <main>
+            <div class="grid">
+                <% for (let sear of search) { %>
+                    <article class="search-item">
+                        <header class="card__header">
+                            <h1 class="search_text">
+                                <%= sear.searchText %>
+                            </h1>
+                        </header>
+
+                        <div class="card__content">
+                            <h2 class="search_id">$
+                                <%= sear._id %>
+                            </h2>
+                            <p class="search_text">
+                                <%= search.searchText %>
+                            </p>
+                        </div>
+                    </article>
+                    <% } %>
+            </div>
+        </main>
+    </main>
+</body>
+<footer>
+    <%- include('../includes/end.ejs') %>
+  </footer>
