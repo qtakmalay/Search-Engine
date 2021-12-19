@@ -163,7 +163,7 @@ const Search = require('../models/search_model');
 
 exports.getSearches = (req, res, next) => {
   Search.find().then(search => {
-    res.render('shop/product-detail', {
+    res.render('search/index', {
       search: search,
       pageTitle: search,
       path: '/'

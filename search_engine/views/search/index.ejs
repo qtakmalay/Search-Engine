@@ -15,7 +15,22 @@
 <body>
     <main class="centered">
         <main>
-            <div class="grid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="list-group">
+                        <!-- loop over blog posts and render them -->
+                        <% search.forEach((sear) => { %>
+                            <a href="#" class="list-group-item">
+                                <h4 class="list-group-item-heading"><%= sear.searchText %></h4>
+                                <p class="list-group-item-text"><%= sear._id %></p>
+                            </a>
+                            <br>
+                            <br>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="grid">
                 <% for (let sear of search) { %>
                     <article class="search-item">
                         <header class="card__header">
@@ -34,7 +49,7 @@
                         </div>
                     </article>
                     <% } %>
-            </div>
+            </div> -->
         </main>
     </main>
 </body>
