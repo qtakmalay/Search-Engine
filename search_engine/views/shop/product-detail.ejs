@@ -27,14 +27,7 @@
                         </article>
                         <% } %>
                 </div>
-<form class="product-form" action="/<%add-product %>" method="POST" enctype="multipart/form-data">
-            <div class="form-control">
-                <label for="title">Title</label>
-                <input  class="<%= validationErrors.find(e => e.param == 'title') ? 'invalid' : '' %>" type="text" name="title" id="title" value="<%= oldInput.title %>">
-            </div>
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-            <button class="btn" type="submit"><% Add Product%></button>
-        </form>
             </main>
         </main>
+    </body>
 
