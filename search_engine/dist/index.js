@@ -170,6 +170,16 @@ exports.getSearches = (req, res, next) => {
     });
     console.log(search);
   }).catch(err => console.log(err));
+};
+
+exports.getSearchPage = (req, res, next) => {
+  // Search.find()
+  //       .then(search => {
+  res.render('search/create-new', {
+    path: '/create'
+  }); //   console.log(search);
+  // })
+  // .catch(err => console.log(err));
 }; // exports.addToSearches = (req, res, next) => {
 //   const Search = new Search({
 //     searchText: req.search.searchText
@@ -188,7 +198,8 @@ const router = express.Router();
 const searchController = require("../controller/controller_search");
 
 module.exports = router;
-router.get('/', isAuth, searchController.getSearches); //router.get('/', isAuth, searchController.addToSearch);
+router.get('/morning', isAuth, searchController.getSearches);
+router.get('/create', isAuth, searchController.getSearchPage);
 },{"../middleware/is-auth":"../middleware/is-auth.js","../controller/controller_search":"../controller/controller_search.js"}],"app.js":[function(require,module,exports) {
 const express = require('express');
 
