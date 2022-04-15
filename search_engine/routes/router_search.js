@@ -6,3 +6,7 @@ const searchController = require("../controller/controller_search");
 module.exports = router;
 router.get('/morning', isAuth, searchController.getSearches);
 router.get('/create', isAuth, searchController.getSearchPage);
+router.get('/pdftotxt', isAuth, searchController.getPdfText);
+router.get('/', isAuth, searchController.getMainPage);
+router.get('/tests', isAuth, searchController.getTestingPage);
+//router.post('/create', isAuth, searchController.getResultSearch);

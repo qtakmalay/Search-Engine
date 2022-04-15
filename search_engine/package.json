@@ -8,7 +8,8 @@
     "dev:hot-reload": "node ./node_modules/nodemon/bin/nodemon --watch ./dist/ ./dist/index.js",
     "start": "node ./node_modules/npm-run-all/bin/npm-run-all -p -r dev:watch dev:hot-reload",
     "build": "node ./node_modules/parcel-bundler/bin/cli build ./src/index.js --target node --out-dir ./dist/",
-    "lint": "node ./node_modules/eslint/bin/eslint . --ext .js --fix"
+    "lint": "node ./node_modules/eslint/bin/eslint . --ext .js --fix",
+    "stop": "lsof -i :8888; kill -9 PROCESS_ID"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cloudinary": "^1.19.0",
@@ -32,13 +34,17 @@
     "express-session": "^1.17.0",
     "express-validator": "^6.13.0",
     "helmet": "^3.21.2",
+    "list.js": "^2.3.1",
+    "lottie-interactive": "^1.3.2",
     "mongodb": "^3.3.5",
     "mongoose": "^6.0.13",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
     "multer-storage-cloudinary": "^2.2.1",
+    "node-fetch": "^3.2.3",
     "nodemailer": "^6.7.1",
     "nodemailer-sendgrid-transport": "^0.2.0",
+    "pdfjs-dist": "^2.13.216",
     "pdfkit": "^0.11.0",
     "pug": "^3.0.2",
     "stripe": "^7.15.0"

@@ -15,7 +15,7 @@ const mongoose = require('mongoose');
 const url = `mongodb+srv://azatsoft:PUn38zyJUyuge5xG@cluster0.azu6g.gcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const connectionParams={ useNewUrlParser: true, useUnifiedTopology: true }
 const searchRoutes = require("../routes/router_search");
-
+const searchController = require("../controller/controller_search");
 mongoose.connect(url,connectionParams)
     .then( () => {
         console.log('Connected to database ')
@@ -23,14 +23,14 @@ mongoose.connect(url,connectionParams)
     .catch( (err) => {
         console.error(`Error connecting to the database. \n${err}`);
     });
+//app.use('/controller',searchController);
 app.use(searchRoutes);
-//app.use(express.static(path.join(__dirname, "public")));
-app.set("view engine", "ejs");
+app.use(express.static('public'));
+app.use('/css', express.static('public/css'))
+app.use('/images', express.static('public/images'))
+app.use('/js', express.static('public/js'))
+app.set('view engine', 'html');
+app.engine('.html', require('ejs').__express);
 app.set("views", "views");
-
-app.get('/', (req, res) => {
-  res.set('Content-Type', 'text/html');
-  res.status(200).send(html);
-});
 
 module.exports = app;

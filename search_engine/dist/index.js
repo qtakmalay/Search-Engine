@@ -129,12 +129,7 @@ var searchSchema = new Schema({
   searchText: {
     type: String,
     required: true
-  } //,
-  // price: {
-  //   type: Number,
-  //   required: true
-  // },
-  // description: {
+  } // description: {
   //   type: String,
   //   required: true
   // },
@@ -156,10 +151,20 @@ var searchSchema = new Schema({
 });
 module.exports = mongoose.model('Search', searchSchema);
 },{}],"../controller/controller_search.js":[function(require,module,exports) {
+"use strict";
+
+require("regenerator-runtime/runtime");
+
+var _axios = _interopRequireDefault(require("axios"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // const fs = require('fs');
 // const path = require('path');
 // const PDFDocument = require('pdfkit');
-const Search = require('../models/search_model');
+const Search = require('../models/search_model'); //
+//var html = $('html')
+
 
 exports.getSearches = (req, res, next) => {
   Search.find().then(search => {
@@ -173,19 +178,84 @@ exports.getSearches = (req, res, next) => {
 };
 
 exports.getSearchPage = (req, res, next) => {
-  // Search.find()
-  //       .then(search => {
-  res.render('search/create-new', {
-    path: '/create'
-  }); //   console.log(search);
-  // })
-  // .catch(err => console.log(err));
-}; // exports.addToSearches = (req, res, next) => {
-//   const Search = new Search({
-//     searchText: req.search.searchText
-//   });
-//   return order.save();
-// };
+  const access_token = '3267694242802c23f79fea3dbc90a0877845de1e';
+  const projects_count = 'http://www.archtscience.com:8070/api/projects/';
+  const projects = "http://www.archtscience.com:8070/api/dm/tasks/";
+  var counter, found_search;
+
+  if (req.query.srchq === "") {
+    res.render('search/create-new', {
+      path: '/create'
+    });
+  } else {
+    _axios.default.get(projects_count, {
+      headers: {
+        'Authorization': `Token  ${access_token}`
+      }
+    }).then(response => {
+      // access parsed JSON response data using response.data field
+      console.log(response.data.count);
+      counter = response.data.count;
+      var texts;
+
+      for (let i = 1; i <= response.data.count; i++) {
+        _axios.default.get(projects + i, {
+          headers: {
+            'Authorization': `Token  ${access_token}`
+          }
+        }).then(response => {
+          // access parsed JSON response data using response.data field
+          console.log(response.data.data.text);
+          texts += '<h1>' + response.data.data.text + '</h1><br/>'; //res.write('<span>' + response.data.data.text + '</span><br/>');
+
+          if (i == counter) {
+            console.log("!!!!!!!!!!!!!!!!!!!");
+            res.render('search/create-new', function (err, html) {
+              res.send(texts);
+            });
+          } else {
+            console.log("I is " + i + " response.data.count " + response.data.count);
+          } //req.body.charactersList = '<span>' + response.data.data.text + '</span><br/>'
+
+        }).catch(error => {
+          console.log(error);
+        });
+      }
+    }).catch(error => {
+      console.log(error);
+    }); // axios.get(projects, {
+    //   headers: {
+    //     'Authorization': `Token  ${access_token}`
+    //   }
+    // })
+    //   .then(response => {
+    //     // access parsed JSON response data using response.data field
+    //     console.log(response.data.data.text)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
+
+  }
+};
+
+exports.getPdfText = (req, res, next) => {
+  res.render('search/pdf-to-txt', {
+    path: '/pdftotxt'
+  });
+};
+
+exports.getMainPage = (req, res, next) => {
+  res.render('search/index', {
+    path: '/index'
+  });
+};
+
+exports.getTestingPage = (req, res, next) => {
+  res.render('search/tests', {
+    path: '/tests'
+  });
+};
 },{"../models/search_model":"../models/search_model.js"}],"../routes/router_search.js":[function(require,module,exports) {
 const path = require('path');
 
@@ -200,6 +270,9 @@ const searchController = require("../controller/controller_search");
 module.exports = router;
 router.get('/morning', isAuth, searchController.getSearches);
 router.get('/create', isAuth, searchController.getSearchPage);
+router.get('/pdftotxt', isAuth, searchController.getPdfText);
+router.get('/', isAuth, searchController.getMainPage);
+router.get('/tests', isAuth, searchController.getTestingPage); //router.post('/create', isAuth, searchController.getResultSearch);
 },{"../middleware/is-auth":"../middleware/is-auth.js","../controller/controller_search":"../controller/controller_search.js"}],"app.js":[function(require,module,exports) {
 const express = require('express');
 
@@ -225,21 +298,24 @@ const connectionParams = {
 
 const searchRoutes = require("../routes/router_search");
 
+const searchController = require("../controller/controller_search");
+
 mongoose.connect(url, connectionParams).then(() => {
   console.log('Connected to database ');
 }).catch(err => {
   console.error(`Error connecting to the database. \n${err}`);
-});
-app.use(searchRoutes); //app.use(express.static(path.join(__dirname, "public")));
+}); //app.use('/controller',searchController);
 
-app.set("view engine", "ejs");
+app.use(searchRoutes);
+app.use(express.static('public'));
+app.use('/css', express.static('public/css'));
+app.use('/images', express.static('public/images'));
+app.use('/js', express.static('public/js'));
+app.set('view engine', 'html');
+app.engine('.html', require('ejs').__express);
 app.set("views", "views");
-app.get('/', (req, res) => {
-  res.set('Content-Type', 'text/html');
-  res.status(200).send(html);
-});
 module.exports = app;
-},{"../routes/router_search":"../routes/router_search.js"}],"index.js":[function(require,module,exports) {
+},{"../routes/router_search":"../routes/router_search.js","../controller/controller_search":"../controller/controller_search.js"}],"index.js":[function(require,module,exports) {
 const app = require('./app');
 
 const port = '8888';
