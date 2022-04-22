@@ -9,4 +9,5 @@ router.get('/create', isAuth, searchController.getSearchPage);
 router.get('/pdftotxt', isAuth, searchController.getPdfText);
 router.get('/', isAuth, searchController.getMainPage);
 router.get('/tests', isAuth, searchController.getTestingPage);
+router.get('/search-test', isAuth, searchController.getSearchTestPage);
 //router.post('/create', isAuth, searchController.getResultSearch);

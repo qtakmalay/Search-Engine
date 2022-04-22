@@ -11,7 +11,7 @@
     margin: 1rem;
 }
 
-.search_text {
+.text {
     font-size: 1.2rem;
     text-align: center;
 }
@@ -22,6 +22,6 @@
     margin-bottom: 0.5rem;
 }
 
-.search_text {
+.text {
     text-align: center;
 }

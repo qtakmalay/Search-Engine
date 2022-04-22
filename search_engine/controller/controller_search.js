@@ -108,5 +108,10 @@ exports.getTestingPage = (req, res, next) => {
 
 };
 
+exports.getSearchTestPage = (req, res, next) => {
+  res.render('search/search-test', {
+    path: '/search-test'
+  });
 
+};
 
