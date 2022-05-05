@@ -41,8 +41,7 @@ Manager.addWidget(new AjaxSolr.PagerWidget({
     $('#pager-header').html($('<span></span>').text('displaying ' + Math.min(total, offset + 1) + ' to ' + Math.min(total, offset + perPage) + ' of ' + total));
   }
 }));
-    Manager.store.addByValue('q', '*:*');
-    Manager.doRequest();
+
 
   });
 })(jQuery);
@@ -155,7 +154,15 @@ facetHandler: function (facet_field, facet_value) {
       <ul id="search">
         <input type="text" id="query" name="query" autocomplete="off">
       </ul>
-
+      <script>
+        document.getElementById('query').addEventListener('keypress', function(event) {
+            if (event.keyCode == 13) {
+              var query = document.getElementById('query');
+              Manager.store.addByValue('q', 'Name:'+query.value);
+              Manager.doRequest();
+            }
+        });
+    </script>
       <h2>Top Topics</h2>
       <div class="tagcloud" id="topics"></div>
 

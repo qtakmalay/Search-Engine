@@ -262,6 +262,12 @@ exports.getSearchTestPage = (req, res, next) => {
     path: '/search-test'
   });
 };
+
+exports.getLandingTestPage = (req, res, next) => {
+  res.render('landing_test/atchitexts', {
+    path: '/atchitexts'
+  });
+};
 },{"../models/search_model":"../models/search_model.js"}],"../routes/router_search.js":[function(require,module,exports) {
 const path = require('path');
 
@@ -279,7 +285,8 @@ router.get('/create', isAuth, searchController.getSearchPage);
 router.get('/pdftotxt', isAuth, searchController.getPdfText);
 router.get('/', isAuth, searchController.getMainPage);
 router.get('/tests', isAuth, searchController.getTestingPage);
-router.get('/search-test', isAuth, searchController.getSearchTestPage); //router.post('/create', isAuth, searchController.getResultSearch);
+router.get('/search-test', isAuth, searchController.getSearchTestPage);
+router.get('/landing-test', isAuth, searchController.getLandingTestPage); //router.post('/create', isAuth, searchController.getResultSearch);
 },{"../middleware/is-auth":"../middleware/is-auth.js","../controller/controller_search":"../controller/controller_search.js"}],"app.js":[function(require,module,exports) {
 const express = require('express');
 
