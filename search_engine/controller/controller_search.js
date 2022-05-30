@@ -114,9 +114,3 @@ exports.getSearchTestPage = (req, res, next) => {
   });
 
 };
-
-exports.getLandingTestPage = (req, res, next) => {
-  res.render('landing_test/atchitexts', {
-    path: '/atchitexts'
-  });
-};
